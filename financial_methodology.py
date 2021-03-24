@@ -1,28 +1,51 @@
-def average_percent(*args):
-    return round(args[0] / args[1] * 100 - 100, 4)
+import logging
+
+from icecream import ic
+
+
+def average_percent(*args, a=''):
+    try:
+        return round((args[0] / args[1] * 100) - 100, 4)
+    except Exception:
+        ic('average_percent', a)
+        return 0
 
 
 def max_percent(*args):
-    return round(max([args[1] / args[0], args[2] / args[0], args[3] / args[0], args[4] / args[0]]) * 100, 4)
-
+    try:
+        return round(max([args[1] / args[0], args[2] / args[0], args[3] / args[0], args[4] / args[0]]) * 100, 4)
+    except ZeroDivisionError:
+        ic('ZeroDivisionError', 'max_percent')
+        return 0
 
 def compute_1(*args):
     return round(args[0] + args[1] - args[2], 4)
 
 
 def divided_two_minus_percent(*args):
-    return round((args[0]-args[1]) / args[0],4)
+    try:
+        return round((args[0]-args[1]) / args[0],4)
+    except ZeroDivisionError:
+        logging.error('ZeroDivisionError', 'divided_two_minus_percent')
+        return 0
 
 def compute_average_percent(*args):
     return args[0] - args[1]
 
 
 def sum_6_abs_percent(*args):
-    return (args[0] + args[1] - args[2] + args[3] - abs(args[4])) / args[1] * 100
-
+    try:
+        return (args[0] + args[1] - args[2] + args[3] - abs(args[4])) / args[1] * 100
+    except ZeroDivisionError:
+        logging.error('ZeroDivisionError', 'sum_6_abs_percent')
+        return 0
 
 def divided_2_percent(*args):
-    return args[0] / args[1] * 100
+    try:
+        return args[0] / args[1] * 100
+    except Exception as e:
+        print(e, 'divided_2_percent')
+        return 0
 
 
 def sum_3_abs_percent(*args):
@@ -52,7 +75,7 @@ def divided_12_coef_parametr_3_percent(*args):
 
 
 def sum_2_parametr_percent(*args):
-    return ((args[0] + args[1]) / args[3]) * 100
+    return ((args[0] + args[1]) / args[2]) * 100
 
 
 def sum_12_parametr_3(*args):
@@ -80,7 +103,7 @@ def divided_parametr_3(*args):
 
 
 def compute_divided_parametr_3(*args):
-    return args[0] + divided_parametr_3(*args[1]) + divided_parametr_3(*args[2])
+    return args[0] + args[1] + args[2]
 
 
 def divided_difference_parametr_4(*args):
