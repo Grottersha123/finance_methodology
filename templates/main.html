@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>Test</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Start Finance</h2>
+    </div>
+    <div class="my-flex-cont">
+        <div class="my-flex-box">
+<ul>
+    <li style="color:green">То что вставилось в таблицу</li>
+     {% for item in insert %}
+        <li>{{loop.index}} - {{ item }}</li>
+    {% endfor %}
+</ul>
+        </div>
+        <div class="my-flex-box">
+<ul>
+    <li style="color: red">То что не вставилось в таблицу</li>
+    {% for item in insert_error %}
+        <li>{{loop.index}} - {{ item }}</li>
+    {% endfor %}
+</ul>
+        </div>
+    </div>
+  </body>
+</html>
+
+<style>
+
+    .my-flex-cont {
+ display: flex;
+ height: 100px;
+
+ justify-content: center;
+}
+    .my-flex-box {
+ margin: 5px;
+ padding: 5px;
+ flex: 0 1 auto;
+}
+</style>

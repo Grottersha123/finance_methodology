@@ -10,7 +10,6 @@ def cnv(lst):
         return list(map(float, lst))
     except Exception as e:
         print(e)
-        print(lst)
         return [0]
 
 
@@ -91,11 +90,11 @@ def compute_all(data):
                 [data_21['kz_pr'], data_21['kz_t']]
             )
         ),
-        # 'pfu_5': divided_2_percent(
-        #     *cnv(
-        #         [data_21['dz_pr'], data_21['dz_t']]
-        #     )
-        # ),
+        'pfu_5': divided_2_percent(
+            *cnv(
+                [data_21['dz_pros'], data_21['dz_t']]
+            )
+        ),
         'pfu_7': divided_2_percent(
             *cnv(
                 [data_21['kz_t'], data_21['d_t']]
@@ -247,8 +246,7 @@ def compute_score(d):
     res_1 = {
         "v_1_score" : sum([res["op_1_score"],res["op_2_score"],res["op_5_score"],res["op_7_score"],res["pfu_3_score"],res["pfu_6_score"]]),
         "v_2_score" : sum([res["op_1_score"],res["op_2_score"],res["op_5_score"],res["op_7_score"],res["op_8_score"],res["pfu_3_score"],res["pfu_6_score"]]),
-
-
+        "v_3_score": sum([res["pfu_10_score"],res["pfu_12_score"],res["pfu_14_score"],res["pfu_15_score"],res["lp_3_score"], res['lp_5_score'] ])
     }
     res.update(res_1)
     return res

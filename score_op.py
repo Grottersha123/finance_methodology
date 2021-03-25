@@ -23,7 +23,7 @@ def score_op_5(a):
         return 1.25
     if -30 <= a <= -15:
         return 1.25
-    if a > -15:
+    if -15 < a:
         return 0
 
 

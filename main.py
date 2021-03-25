@@ -20,18 +20,37 @@ def get_request(url,date):
     return data.content
 # TODO:// переписать с учетом принятя массивов
 
+def start_script():
+    print('start_script')
+    requests_data = get_request(url, '')
+    # data = load_json(path)
+    data = json.loads(requests_data)
+    res_insert = []
+    res_not_insert = []
+    for ind, d in enumerate(data):
+        try:
+            print(d,data[d]['id'])
+            result = compute_all(data[d])
+            result_score = compute_score(result)
+            id = insert_data(result, result_score)
+            res_insert.append(id)
+        except Exception as e:
+            print(e, data[d]['id'])
+            res_not_insert.append(data[d]['id'])
+    return res_insert, res_not_insert
 
 # Press the green button in the gutter to run the script.
 import json
 if __name__ == '__main__':
-    path = r'example.json'
-
-    requests_data = get_request(url, '')
-    # data = load_json(path)
-    data = json.loads(requests_data)
-    for ind, d in enumerate(data):
-        print(ind, data[d]['id'])
-        result = compute_all(data[d])
-        result_score = compute_score(result)
-        insert_data(result, result_score)
+    pass
+    # path = r'example.json'
+    #
+    # requests_data = get_request(url, '')
+    # # data = load_json(path)
+    # data = json.loads(requests_data)
+    # for ind, d in enumerate(data):
+    #     print(ind, data[d]['id'])
+    #     result = compute_all(data[d])
+    #     result_score = compute_score(result)
+    #     insert_data(result, result_score)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

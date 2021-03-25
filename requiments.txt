@@ -1,0 +1,5 @@
+SQLAlchemy
+sshtunnel
+requests
+psycopg2
+icecream
