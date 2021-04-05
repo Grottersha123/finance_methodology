@@ -10,6 +10,10 @@ def average_percent(*args, a=''):
         ic('average_percent', a)
         return 0
 
+#Start Oleg's code
+def max_value(*args):
+    return round(max([args[0], args[1], args[2], args[3]]), 4)
+#end Oleg's code
 
 def max_percent(*args):
     try:
@@ -24,7 +28,7 @@ def compute_1(*args):
 
 def divided_two_minus_percent(*args):
     try:
-        return round((args[0]-args[1]) / args[0],4)
+        return round(((args[0]-args[1]) / args[0])*100,4)
     except ZeroDivisionError:
         logging.error('ZeroDivisionError', 'divided_two_minus_percent')
         return 0
@@ -67,11 +71,11 @@ def divided_12_percent(*args):
 
 # не ясно с делителем
 def divided_12_parametr_3_percent(*args):
-    return args[0] / (args[1] / (12 * args[2])) * 100
+    return (args[0] / ((args[1] / 12) * args[2])) * 100
 
 
 def divided_12_coef_parametr_3_percent(*args):
-    return args[0] / (args[1] / (12 * args[2] * 0.302)) * 100
+    return args[0] / ((args[1] / 12) * args[2] * 0.302) * 100
 
 
 def sum_2_parametr_percent(*args):

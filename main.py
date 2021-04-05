@@ -22,21 +22,24 @@ def get_request(url,date):
 
 def start_script():
     print('start_script')
+    path = r'example.json'
     requests_data = get_request(url, '')
     # data = load_json(path)
     data = json.loads(requests_data)
     res_insert = []
     res_not_insert = []
+    res_new = []
     for ind, d in enumerate(data):
         try:
-            print(d,data[d]['id'])
+            print(ind, data[d]['id'])
             result = compute_all(data[d])
             result_score = compute_score(result)
-            id = insert_data(result, result_score)
-            res_insert.append(id)
+            res_new.append((result, result_score))
         except Exception as e:
             print(e, data[d]['id'])
             res_not_insert.append(data[d]['id'])
+    print('start insert data')
+    insert_data(res_new)
     return res_insert, res_not_insert
 
 # Press the green button in the gutter to run the script.
