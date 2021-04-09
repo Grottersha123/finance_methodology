@@ -8,7 +8,7 @@ import requests
 from config import url
 from db_operation import insert_data
 from generate_dict import compute_all, compute_score
-
+import time
 
 def load_json(path):
     with open(path,'r') as file:
