@@ -23,9 +23,9 @@ def get_request(url,date):
 def start_script():
     print('start_script')
     path = r'example.json'
-    requests_data = get_request(url, '')
-    # data = load_json(path)
-    data = json.loads(requests_data)
+    # requests_data = get_request(url, '')
+    data = load_json(path)
+    # data = json.loads(requests_data)
     res_insert = []
     res_not_insert = []
     res_new = []
@@ -36,9 +36,10 @@ def start_script():
             result_score = compute_score(result)
             res_new.append((result, result_score))
         except Exception as e:
-            print(e, data[d]['id'])
+            print(e)
             res_not_insert.append(data[d]['id'])
     print('start insert data')
+    print(res_not_insert)
     insert_data(res_new)
     return res_insert, res_not_insert
 
@@ -61,6 +62,7 @@ def start_script_1():
             print(e, data[d]['id'])
             res_not_insert.append(data[d]['id'])
     print('start insert data')
+    print(res_new)
     insert_data(res_new)
     return res_insert, res_not_insert
 

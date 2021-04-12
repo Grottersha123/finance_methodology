@@ -29,6 +29,7 @@ def insert_data(res):
             # test data retrieval
             for ind, d in enumerate(res):
                 data, score = d[0], d[1]
+                print(data, score)
                 raw_str = """INSERT INTO dep_orgs_payment
                 (blocksubbo_codesub, period,
                 op1, op2, op3, op4, op5 , op6, op7, op8, op9,
@@ -39,7 +40,15 @@ def insert_data(res):
                 pfu10, pfu11, pfu12, pfu13,
                 pfu14, pfu15, lp3, lp5,
                 pfu10_11_score, pfu12_13_score,
-                pfu14_score, pfu15_score, lp3_score, lp5_score,v3_score, pfu4, pfu5, pfu7, pfu8, pfu9)
+                pfu14_score, pfu15_score, lp3_score, lp5_score,v3_score, pfu4, pfu5, pfu7, pfu8, pfu9,
+                op1a,
+                op10a,
+                op11a,
+                op5a,
+                op6a,
+                op7a,
+                op8a,
+                op9a)
                 VALUES ('{}', '2021-01-01 00:00:00.000000',
                 {}, {}, {}, {}, {}, {}, {}, {},
                 {}, {}, {},
@@ -50,9 +59,10 @@ def insert_data(res):
                 {}, {}, {}, {},
                 {}, {},
                 {}, {},{},{},{},
-                {},{},{},{},{});""".\
+                {},{},{},{},{},
+                {},{},{},{},{},{},{},{});""".\
                     format(data['id'],
-                           data['op_1_d_t_delta'],data['op_2_d_t_max_percent_21'], data['op_3_d_t_max_delta_max_percent'],data['op_4_p_t_delta'],data['op_5'], data['op_6'], data['op_7'], data['op_8'],data['op_9'],
+                           data['op_1_d_t_delta'],data['op_2_d_t_max_value_21'], data['op_3_d_t_max_delta_max_percent'],data['op_4_p_t_delta'],data['op_5'], data['op_6'], data['op_7'], data['op_8'],data['op_9'],
                                         data['pfu_3'], data['pfu_3a'], data['pfu_6'],
                                         # score['op_2_score']
                                         score['op_1_score'], score['op_5_score'],
@@ -63,7 +73,10 @@ def insert_data(res):
                                         score['pfu_10_score'], score['pfu_12_score'], # Oleg - change: drop this duplicate score['v_2_score'],
                                         score['pfu_14_score'], score['pfu_15_score'], score['lp_3_score'],
                                         score['lp_5_score'],score['v_3_score'],
-                                        data['pfu_4'],data['pfu_5'],data['pfu_7'],data['pfu_8'],data['pfu_9']
+                                        data['pfu_4'],data['pfu_5'],data['pfu_7'],data['pfu_8'],data['pfu_9'],
+
+                           data['op_1a'], data['op_10a'], data['op_11a'], data['op_5a'], data['op_6a'],
+                           data['op_7a'], data['op_8a'], data['op_9a']
                            )
 
 

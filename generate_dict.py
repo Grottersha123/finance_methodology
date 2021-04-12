@@ -102,6 +102,7 @@ def compute_all(data):
                 [data_21['os_t_ng'], data_21['d_t'], data_21['p_t']]  # Oleg - change:  data_20['p_t']] →  data_21['p_t']]
             )
         ),
+
         'op_6a': compute_1(
             *cnv(
                 [data_21['os_t_ng_1'], data_21['d_t_1'], data_21['p_t_1']]
@@ -129,6 +130,7 @@ def compute_all(data):
                 [data_21['os_t_pdd_1'], data_21['d_t_pdd_1'], data_21['p_t_pdd_1'], data_21['z_t_uv_1'], data_21['z_t_um_1']]
             )
         ),
+
         'pfu_3': divided_2_percent(
             *cnv(
                 [data_21['d_t_o'], data_21.get('d_t_pdd')]
@@ -157,7 +159,7 @@ def compute_all(data):
         ),
         'pfu_7': sum_2_parametr_percent(
             *cnv(
-                [data_21['dt_o'], data_21['kz'], data_21['d_t_']]# Oleg - change:  data_21['d_t'] → data_21['d_t_'],
+                [data_21['d_t_o'], data_21['kz'], data_21['d_t_']]# Oleg - change:  data_21['d_t'] → data_21['d_t_'],
                 # data_21['kz_t']] → data_21['kz']]
             )
         ),
@@ -173,25 +175,25 @@ def compute_all(data):
                 # data_21['dz_t']] → data_21['dz']]
             )
         ),
-
-        'pfu_11': divided_12_percent(
-            *cnv(
-                [data_21['os_1'], data_21['rp']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
-                # data_21['dz_t']] → data_21['dz']]
-            )
-        ),
-        'pfu_12': diffence(
-            *cnv(
-                [data_21['os_2'], data_21['rp']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
-                # data_21['dz_t']] → data_21['dz']]
-            )
-        ),
-        'pfu_13': divided_12_percent(
-            *cnv(
-                [data_21['os_1'], data_21['kz_pr']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
-                # data_21['dz_t']] → data_21['dz']]
-            )
-        ),
+        #
+        # 'pfu_11': divided_12_percent(
+        #     *cnv(
+        #         [data_21['os_1'], data_21['rp']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
+        #         # data_21['dz_t']] → data_21['dz']]
+        #     )
+        # ),
+        # 'pfu_12': diffence(
+        #     *cnv(
+        #         [data_21['os_2'], data_21['rp']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
+        #         # data_21['dz_t']] → data_21['dz']]
+        #     )
+        # ),
+        # 'pfu_13': divided_12_percent(
+        #     *cnv(
+        #         [data_21['os_1'], data_21['kz_pr']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
+        #         # data_21['dz_t']] → data_21['dz']]
+        #     )
+        # ),
         'pfu_10_oc_1': compute_average_percent(
             *cnv(
                 [data_21['os'], data_21['kz_zpvf']]
@@ -270,6 +272,22 @@ def compute_all(data):
             *cnv(
                 [compute_dict['op_4a'], compute_dict['op_1a']]
             )
+        ),
+         'op_11': average_percent(
+            *cnv(
+                [compute_dict['op_10_d_t_max_percent_20'], compute_dict['op_10_d_t_max_percent_21']]
+                # Oleg's change: [compute_dict['op_2_d_t_max_percent_21'], compute_dict['op_2_d_t_max_percent_20']] →
+                # → [compute_dict['op_2_d_t_max_value_21'], compute_dict['op_2_d_t_max_value_20']]
+            ),
+           a='op_11'
+        ),
+    'op_11a': average_percent(
+            *cnv(
+                [compute_dict['op_10_d_t_max_percent_20'], compute_dict['op_10_d_t_max_percent_21']]
+                # Oleg's change: [compute_dict['op_2_d_t_max_percent_21'], compute_dict['op_2_d_t_max_percent_20']] →
+                # → [compute_dict['op_2_d_t_max_value_21'], compute_dict['op_2_d_t_max_value_20']]
+            ),
+           a='op_11'
         ),
         'pfu_11': divided_12_percent(
             *cnv(
@@ -466,7 +484,7 @@ def compute_all_fs_(data):
         ),
         'pfu_7': sum_2_parametr_percent(
             *cnv(
-                [data_21['dt_o'], data_21['kz'], data_21['d_t_']]# Oleg - change:  data_21['d_t'] → data_21['d_t_'],
+                [data_21['d_t_o'], data_21['kz'], data_21['d_t_']]# Oleg - change:  data_21['d_t'] → data_21['d_t_'],
                 # data_21['kz_t']] → data_21['kz']]
             )
         ),
@@ -483,24 +501,24 @@ def compute_all_fs_(data):
             )
         ),
 
-        'pfu_11': divided_12_percent(
-            *cnv(
-                [data_21['os_1'], data_21['rp']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
-                # data_21['dz_t']] → data_21['dz']]
-            )
-        ),
-        'pfu_12': diffence(
-            *cnv(
-                [data_21['os_2'], data_21['rp']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
-                # data_21['dz_t']] → data_21['dz']]
-            )
-        ),
-        'pfu_13': divided_12_percent(
-            *cnv(
-                [data_21['os_1'], data_21['kz_pr']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
-                # data_21['dz_t']] → data_21['dz']]
-            )
-        ),
+        # 'pfu_11': divided_12_percent(
+        #     *cnv(
+        #         [data_21['os_1'], data_21['rp']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
+        #         # data_21['dz_t']] → data_21['dz']]
+        #     )
+        # ),
+        # 'pfu_12': diffence(
+        #     *cnv(
+        #         [data_21['os_2'], data_21['rp']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
+        #         # data_21['dz_t']] → data_21['dz']]
+        #     )
+        # ),
+        # 'pfu_13': divided_12_percent(
+        #     *cnv(
+        #         [data_21['os_1'], data_21['kz_pr']]  # Oleg - change:  data_21['d_t'] → data_21['d_t_'],
+        #         # data_21['dz_t']] → data_21['dz']]
+        #     )
+        # ),
         'pfu_10_oc_1': compute_average_percent(
             *cnv(
                 [data_21['os'], data_21['kz_zpvf']]
@@ -632,7 +650,7 @@ def compute_all_fs_(data):
 def compute_score(d):
     res = {
     "op_1_score": score_op_1(d["op_1_d_t_delta"]),
-    "op_2_score": score_op_2_3(d["op_2_d_t_max_percent_21"]),
+    "op_2_score": score_op_2_3(d["op_2_d_t_max_value_21"]),
     "op_5_score": score_op_5(d["op_5"]),
     "op_7_score": score_op_7(d["op_7"]),
     "op_8_score": score_op_8(d["op_8"]),
