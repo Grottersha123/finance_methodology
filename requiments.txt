@@ -3,3 +3,4 @@ sshtunnel
 requests
 psycopg2-binary
 icecream
+flask
