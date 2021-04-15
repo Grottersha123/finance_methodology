@@ -26,7 +26,7 @@ df_data = pd.DataFrame(columns=clm)
 ids_lst = ids.split('|')
 
 
-async def main(year='01012021', id_set=ids):
+async def main(year='01012021', id_set=ids, tables=tables):
     # Establish a connection to an existing database named "test"
     # as a "postgres" user.
     # Execute a statement to create a new table.
@@ -102,6 +102,7 @@ async def main(year='01012021', id_set=ids):
                 result.extend(data)
                 # Close the connection.
         except Exception as e:
+            pd.DataFrame(data=result, columns=clm).to_csv('{}.csv'.format('report_error'))
             raise Exception("has error '%s'" % e)
         finally:
             await conn.close()
@@ -111,8 +112,8 @@ async def main(year='01012021', id_set=ids):
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     tasks = [
-        loop.create_task(main(year='01012020')),
-        loop.create_task(main(year="01012021")),
+       loop.create_task(main(year='01012020', tables=tables[:8])), loop.create_task(main(year='01012020', tables=tables[8:16])),
+        loop.create_task(main(year="01012021", tables=tables[:8])), loop.create_task(main(year="01012021", tables=tables[8:16]))
     ]
     loop.run_until_complete(asyncio.wait(tasks))
     loop.close()
