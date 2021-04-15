@@ -30,7 +30,7 @@ async def main(year='01012021', id_set=ids):
     # Establish a connection to an existing database named "test"
     # as a "postgres" user.
     # Execute a statement to create a new table.
-    if os.name != 'posix':
+    if os.name == 'nt':
         with SSHTunnelForwarder(
                 ('193.41.140.35', 22003),  # Remote server IP and SSH port
                 ssh_username="analit",
@@ -66,6 +66,7 @@ async def main(year='01012021', id_set=ids):
                         if i not in data_ids:
                             data.append([i, None, year, table, None, None])
                     result.extend(data)
+                    logging.info(table)
                     # Close the connection.
             except Exception as e:
                 raise Exception("has error '%s'" % e)
@@ -73,7 +74,7 @@ async def main(year='01012021', id_set=ids):
                 await conn.close()
             await conn.close()
             server.close()
-    else:
+    if os.name == 'posix':
         conn = await asyncpg.connect('postgresql://postgres:Sae7ZaeWklS@10.10.59.238:' + "5432" + '/data')
         try:
             # connect to PostgreSQL
@@ -97,7 +98,7 @@ async def main(year='01012021', id_set=ids):
                 for ind, i in enumerate(id_set.split('|')):
                     if i not in data_ids:
                         data.append([i, None, year, table, None, None])
-                logging.INFO('table-{}, len-{}').format(table, len(data))
+                logging.info(table)
                 result.extend(data)
                 # Close the connection.
         except Exception as e:
