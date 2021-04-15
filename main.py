@@ -23,9 +23,9 @@ def get_request(url,date):
 def start_script():
     print('start_script')
     path = r'example.json'
-    # requests_data = get_request(url, '')
-    data = load_json(path)
-    # data = json.loads(requests_data)
+    requests_data = get_request(url, '')
+    # data = load_json(path)
+    data = json.loads(requests_data)
     res_insert = []
     res_not_insert = []
     res_new = []

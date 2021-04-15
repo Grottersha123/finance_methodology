@@ -10,6 +10,44 @@ def average_percent(*args, a=''):
         ic('average_percent', a)
         return 0
 
+def average_percent_rfkm(*args, a=''):
+    try:
+        return round(100 - ((args[0] - args[1]) / args[1] * 100), 4)
+    except Exception:
+        ic('average_percent_rfkm', a)
+        return 0
+
+
+def average_percent_minus_rfkm(*args, a=''):
+    try:
+        return round((args[0]-args[1]-args[2]-args[3] / args[4]), 4)
+    except Exception:
+        ic('average_percent', a)
+        return 0
+
+
+def average_percent_two_rfkm(*args, a=''):
+    try:
+        return round((args[0] / (args[0] +args[1] )), 4)
+    except Exception:
+        ic('average_percent', a)
+        return 0
+
+def average_percent_6_12_rfkm(*args, a=''):
+    try:
+        return round(((args[0] + args[1] + args[2]) / (args[3] + args[4] +  args[5])), 4)
+    except Exception:
+        ic('average_percent', a)
+        return 0
+
+def sp_1_rfkm(*args, a=''):
+    try:
+        return round(((args[0] / (args[0] + args[1] + args[2])), 4))
+    except Exception:
+        ic('average_percent', a)
+        return 0
+
+
 #Start Oleg's code
 def max_value(*args):
     return round(max([args[0], args[1], args[2], args[3]]), 4)

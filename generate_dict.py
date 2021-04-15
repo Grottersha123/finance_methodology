@@ -1,6 +1,8 @@
-from financial_methodology import average_percent, max_value, diffence, max_percent, compute_1, divided_two_minus_percent, sum_6_abs_percent, \
+from financial_methodology import average_percent, max_value, diffence, max_percent, compute_1, \
+    divided_two_minus_percent, sum_6_abs_percent, \
     divided_2_percent, sum_3_abs_percent, sum_3_percent, compute_average_percent, divided_12_parametr_3_percent, \
-    divided_12_coef_parametr_3_percent, sum_2_parametr_percent, difference_abs, divided_12_percent
+    divided_12_coef_parametr_3_percent, sum_2_parametr_percent, difference_abs, divided_12_percent, \
+    average_percent_rfkm, average_percent_minus_rfkm, average_percent_two_rfkm, average_percent_6_12_rfkm, sp_1_rfkm
 from score_op import score_op_1, score_op_2_3, score_op_5, score_op_7, score_op_8, score_pfu_3, score_pfu_6, \
     score_pfu_10, score_pfu_12, score_pfu_14_15, score_lp_3, score_lp_5
 
@@ -670,3 +672,68 @@ def compute_score(d):
     }
     res.update(res_1)
     return res
+
+def compute_all_rkfm(data):
+    d_1 = data['01012021']
+    compute_dict = {
+        'pkp_1': average_percent_rfkm(
+            *cnv(
+                [d_1['d_f'], d_1['d_p']]
+            )
+        ),
+        'pkp_2': average_percent_rfkm(
+            *cnv(
+                [d_1['p_f'], d_1['p_p']]
+            )
+        ),
+        'pkp_3': average_percent_minus_rfkm(
+            *cnv(
+                [d_1['o_s'], d_1['o_bt'],d_1['o_bs'],d_1['p_as'],d_1['d_gz'] ]
+            )
+        ),
+        'pfu_1': average_percent_two_rfkm(
+            *cnv(
+                [d_1['d_pdd '], d_1['d_gz']]
+            )
+        ),
+        'pfu_2': average_percent_6_12_rfkm(
+            *cnv(
+                [d_1['kz_fot'], d_1['kz_n'], d_1['kz_kucn'],d_1['p_fot_vf'],d_1['p_n'], d_1['p_kucn']]
+            )
+        ),
+        'pfu_3': divided_2_percent(
+            *cnv(
+                [d_1['d_o'], d_1['d_pdd']]
+            )
+        ),
+        'pfu_4': divided_2_percent(
+            *cnv(
+                [d_1['kz_pros'], d_1['kz']]
+            )
+        ),
+        'pfu_5': divided_2_percent(
+            *cnv(
+                [d_1['dz_pros'], d_1['dz']]
+            )
+        ),
+        'pfu_6': divided_2_percent(
+            *cnv(
+                [d_1['os_pdd'], d_1['p_fotvf'],d_1['p_n'],d_1['p_ku'],d_1['d_pdd']]
+            )
+        ),
+        'sp_1': sp_1_rfkm(
+            *cnv(
+                [d_1['fnz_t_pps'], d_1['cch_t_pps'], d_1['t'], d_1['zp_t_sr']]
+            )
+        ),
+        'sp_3': divided_2_percent(
+            *cnv(
+                [d_1['p_fotvf'], d_1['p']]
+            )
+        ),
+        'sp_4': divided_2_percent(
+            *cnv(
+                [d_1['fnz_op'], d_1['fnz_obs']]
+            )
+        ),
+    }
