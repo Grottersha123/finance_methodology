@@ -2,13 +2,12 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-import json
 import requests
 
-from config import url
+from async_db.config import url
 from db_operation import insert_data
 from generate_dict import compute_all, compute_score
-import time
+
 
 def load_json(path):
     with open(path,'r') as file:

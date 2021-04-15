@@ -27,6 +27,7 @@ def runQuery(query):
 
         # connect to PostgreSQL
         local_port = str(server.local_bind_port)
+
         engine = create_engine('postgresql://postgres:Sae7ZaeWklS@localhost:' + local_port + '/data')
         Session = sessionmaker(bind=engine)
         session = Session()
