@@ -20,10 +20,30 @@ tables = ['fk_form_0503721', 'fk_form_0503730_r1',
           'fk_form_0503773_r2',
           'fk_form_0503779']
 result = []
-clm = ['id', 'max', 'year', 'name_table', 'max', 'max']
+clm = ['id', 'max', 'year', 'name_table', 'last_date', 'max_report_type','rows_num']
 
 df_data = pd.DataFrame(columns=clm)
 ids_lst = ids.split('|')
+
+
+def create_sql(year, table, id_set):
+    sql_raw = """select 
+                                        substring(blocksubbo_codesub from 6 for 8) as id,
+                                        max(blocksubbo_foname),
+                                        '{0}' AS year,
+                                        '{1}' as name_table,
+                                        max(period) as last_date,
+                                        max(blocktypereport_id) as max_report_type,
+                                        count(id) as rows_num
+                                       from {1} 
+                                       where 
+                                        period in ('{0}')
+                                       and blocksubbo_codesub SIMILAR TO '%({2})%'
+                                       group by substring(blocksubbo_codesub from 6 for 8)""".format(year, table,
+                                                                                                     id_set)
+    return sql_raw
+
+
 
 
 async def main(year='01012021', id_set=ids, tables=tables):
@@ -46,19 +66,7 @@ async def main(year='01012021', id_set=ids, tables=tables):
             try:
                 # connect to PostgreSQL
                 for table in tables[:]:
-                    sql_raw = """select
-                                             substring(blocksubbo_codesub from 6 for 8) as id,
-                                             max(blocksubbo_foname),
-                                             '{0}' AS year,
-                                             '{1}' as name_table,
-                                             max(period),
-                                             max(blocktypereport_id)
-                                            from  {1}
-                                            where
-                                             period in ('{0}')
-                                            and blocksubbo_codesub SIMILAR TO '%({2})%'
-                                            group by substring(blocksubbo_codesub from 6 for 8)
-                    """.format(year, table, id_set)
+                    sql_raw = create_sql(year, table, id_set)
                     row = await conn.fetch(sql_raw)
                     data = [[j for j in i] for i in row]
                     data_ids = [i[0] for i in data]
@@ -79,19 +87,7 @@ async def main(year='01012021', id_set=ids, tables=tables):
         try:
             # connect to PostgreSQL
             for table in tables[:]:
-                sql_raw = """select
-                                                    substring(blocksubbo_codesub from 6 for 8) as id,
-                                                    max(blocksubbo_foname),
-                                                    '{0}' AS year,
-                                                    '{1}' as name_table,
-                                                    max(period),
-                                                    max(blocktypereport_id)
-                                                   from  {1}
-                                                   where
-                                                    period in ('{0}')
-                                                   and blocksubbo_codesub SIMILAR TO '%({2})%'
-                                                   group by substring(blocksubbo_codesub from 6 for 8)
-                           """.format(year, table, id_set)
+                sql_raw = create_sql(year, table, id_set)
                 row = await conn.fetch(sql_raw)
                 data = [[j for j in i] for i in row]
                 data_ids = [i[0] for i in data]
@@ -112,8 +108,10 @@ async def main(year='01012021', id_set=ids, tables=tables):
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     tasks = [
-       loop.create_task(main(year='01012020', tables=tables[:8])), loop.create_task(main(year='01012020', tables=tables[8:16])),
-        loop.create_task(main(year="01012021", tables=tables[:8])), loop.create_task(main(year="01012021", tables=tables[8:16]))
+        loop.create_task(main(year='01012020', tables=tables[:8])),
+        loop.create_task(main(year='01012020', tables=tables[8:16])),
+        loop.create_task(main(year="01012021", tables=tables[:8])),
+        loop.create_task(main(year="01012021", tables=tables[8:16]))
     ]
     loop.run_until_complete(asyncio.wait(tasks))
     loop.close()
