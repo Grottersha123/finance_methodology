@@ -1,4 +1,4 @@
-from main import start_script
+from main import start_script_method_1
 
 if __name__ == '__main__':
-    start_script()
+    start_script_method_1()

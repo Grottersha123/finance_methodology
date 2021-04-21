@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sshtunnel import SSHTunnelForwarder
 import multiprocessing
-from sql_query import raw_sql
+from async_db.sql_query import raw_sql
 table = ['fk_form_0503721', 'fk_form_0503730_r1', 'fk_form_0503730_r2', 'fk_form_0503737_r1', 'fk_form_0503737_r2',
          'fk_form_0503737_r3', 'fk_form_0503737_r4', 'fk_form_0503738', 'fk_form_0503768', 'fk_form_0503769_r1',
          'fk_form_0503769_r2', 'fk_form_0503772_r1', 'fk_form_0503772_r2', 'fk_form_0503773_r1', 'fk_form_0503773_r2',

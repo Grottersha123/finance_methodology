@@ -2,14 +2,19 @@ from financial_methodology import average_percent, max_value, diffence, max_perc
     divided_two_minus_percent, sum_6_abs_percent, \
     divided_2_percent, sum_3_abs_percent, sum_3_percent, compute_average_percent, divided_12_parametr_3_percent, \
     divided_12_coef_parametr_3_percent, sum_2_parametr_percent, difference_abs, divided_12_percent, \
-    average_percent_rfkm, average_percent_minus_rfkm, average_percent_two_rfkm, average_percent_6_12_rfkm, sp_1_rfkm
+    average_percent_rfkm, average_percent_minus_rfkm, average_percent_two_rfkm, average_percent_6_12_rfkm, sp_1_rfkm, \
+    average_percent_3_rfkm, average_percent_fot_rfkm, sp_1_rfkm_on, divided_4_percent
 from score_op import score_op_1, score_op_2_3, score_op_5, score_op_7, score_op_8, score_pfu_3, score_pfu_6, \
-    score_pfu_10, score_pfu_12, score_pfu_14_15, score_lp_3, score_lp_5
+    score_pfu_10, score_pfu_12, score_pfu_14_15, score_lp_3, score_lp_5, score_pkp_3, score_pkp_2, score_sp_7, \
+    score_pkp_1, score_pfu_1, score_pfu_2, score_pfu_5, score_pfu_7, score_sp_1, score_sp_3, score_sp_2, score_sp_4, \
+    score_sp_5, score_sp_6
 
+def convert_none(lst):
+    return [0 if v is None else v for v in lst]
 
 def cnv(lst):
     try:
-        return list(map(float, lst))
+        return list(map(float, convert_none(lst)))
     except Exception as e:
         print(e)
         return [0]
@@ -340,7 +345,7 @@ def compute_all(data):
 
     return compute_dict
 
-def compute_all_fs_(data):
+def compute_all_fs(data):
     data_20 = data['01012020']
     data_21 = data['01012021']
     # data_year = data['year']
@@ -649,31 +654,8 @@ def compute_all_fs_(data):
 
     return compute_dict
 
-def compute_score(d):
-    res = {
-    "op_1_score": score_op_1(d["op_1_d_t_delta"]),
-    "op_2_score": score_op_2_3(d["op_2_d_t_max_value_21"]),
-    "op_5_score": score_op_5(d["op_5"]),
-    "op_7_score": score_op_7(d["op_7"]),
-    "op_8_score": score_op_8(d["op_8"]),
-    "pfu_3_score": score_pfu_3(d["pfu_3"]),
-    "pfu_6_score": score_pfu_6(d["pfu_6"]),
-    "pfu_10_score": score_pfu_10(d["pfu_11"],d["pfu_10_oc_1"]),
-    "pfu_12_score": score_pfu_12(d["pfu_13"],d["pfu_12_oc_2"]),
-    "pfu_14_score": score_pfu_14_15(d["pfu_14"]),
-    "pfu_15_score": score_pfu_14_15(d["pfu_15"]),
-    "lp_3_score": score_lp_3(d["lp_3_ko_delta"]),
-    "lp_5_score": score_lp_5(d["lp_5"]),
-    }
-    res_1 = {
-        "v_1_score" : sum([res["op_1_score"],res["op_5_score"],res["op_7_score"],res["pfu_3_score"],res["pfu_6_score"]]), # Oleg's change: delete ,res["op_2_score"]
-        "v_2_score" : sum([res["op_1_score"],res["op_5_score"],res["op_7_score"],res["op_8_score"],res["pfu_3_score"],res["pfu_6_score"]]), # Oleg's change: delete ,res["op_2_score"]
-        "v_3_score": sum([res["pfu_10_score"],res["pfu_12_score"],res["pfu_14_score"],res["pfu_15_score"],res["lp_3_score"], res['lp_5_score'] ])
-    }
-    res.update(res_1)
-    return res
 
-def compute_all_rkfm(data):
+def compute_all_rkfm_oovo(data):
     d_1 = data['01012021']
     compute_dict = {
         'pkp_1': average_percent_rfkm(
@@ -737,3 +719,187 @@ def compute_all_rkfm(data):
             )
         ),
     }
+
+def check_keys_in_json_rkfm_no(data_dict):
+    parametrs = ['d_f','d_p',
+                 'r_f','r_p',
+                 'o_s','o_bt','o_bs','p_ac','d_gz',
+                 'd_t_pdd','d_t_oms','d_t_z',
+                 'd_o','d_pdd',
+                 'kz_pros','kz',
+                 'dz_pros','dz',
+                 'vla','dz','kz','d_pdd_f',
+                 'kz_fot', 'kz_vf','kz_n','kz_ku','fot','r_n','r_ku',
+                 's_vnsh', 's_obsh',
+                 'fnz_t_ns','ssch_t_ns','zp_t_sr',
+                 'p_fotvf', 'p',
+                 'fnz_op', 'fnz_obs','ssch_t_np39','ssch_t_np',
+                 'rid_t',
+                 'niokr_pdd','niokr_gz',
+                 'd_niokr', 'op',
+                 'fr_rid','rid_s'
+                 ]
+    d_1 = data_dict['01012021']
+    d_0 = data_dict['01012020']
+    for p in parametrs:
+        if p not in d_1.keys():
+            data_dict['01012021'].update({
+                p : 0
+            })
+            print('missing', p)
+        if p not in d_0.keys():
+            data_dict['01012020'].update({
+                p: 0
+            })
+    return data_dict
+
+def compute_all_rkfm_no(data,id_=''):
+    data = check_keys_in_json_rkfm_no(data)
+    d_1 = data['01012021']
+    d_0 = data['01012020']
+    compute_dict = {
+        'pkp_1': average_percent_rfkm(
+            *cnv(
+                [d_1['d_f'], d_1['d_p']]
+            )
+        ),
+        'pkp_2': average_percent_rfkm(
+            *cnv(
+                [d_1['r_f'], d_1['r_p']]
+            )
+        ),
+        'pkp_3': average_percent_minus_rfkm(
+            *cnv(
+                [d_1['o_s'], d_1['o_bt'], d_1['o_bs'], d_1['p_ac'], d_1['d_gz'] ]
+            )
+        ),
+        'pfu_1': average_percent_3_rfkm(
+            *cnv(
+                [d_1['d_t_pdd'], d_1['d_t_oms'], d_1['d_t_z']]
+            )
+        ),
+        'pfu_2': divided_2_percent(
+            *cnv(
+                [d_1['d_o'], d_1['d_pdd']]
+            )
+        ),
+        'pfu_3': divided_2_percent(
+            *cnv(
+                [d_1['kz_pros'], d_1['kz']]
+            )
+        ),
+        'pfu_4': divided_2_percent(
+            *cnv(
+                [d_1['dz_pros'], d_1['dz']]
+            )
+        ),
+        'pfu_5': sum_3_percent(
+            *cnv(
+                [d_1['vla'], d_1['dz'],d_1['kz'], d_1['d_pdd_f']]
+            )
+        ),
+        'pfu_6': average_percent_fot_rfkm(
+            *cnv(
+                [d_1['kz_fot'], d_1['kz_vf'], d_1['kz_n'], d_1['kz_ku'],d_1['fot'], d_1['r_n'], d_1['r_ku']]
+            )
+        ),
+        'pfu_7': divided_2_percent(
+            *cnv(
+                [d_1['s_vnsh'], d_1['s_obsh']]
+            )
+        ),
+        'sp_1': sp_1_rfkm_on(
+            *cnv(
+                [d_1['fnz_t_ns'], d_1['ssch_t_ns'], d_1['zp_t_sr']]
+            )
+        ),
+        # не понятно
+        # 'sp_2': sp_1_rfkm_on(
+        #     *cnv(
+        #         [d_1['fnz_t_ns'], d_1['ssch_t_ns '], d_1['zp_t_sr']]
+        #     )
+        # ),
+        'sp_2': 0,
+        'sp_3': divided_2_percent(
+            *cnv(
+                [d_1['p_fotvf'], d_1['p']]
+            )
+        ),
+        'sp_4': divided_2_percent(
+            *cnv(
+                [d_1['fnz_op'], d_1['fnz_obs']]
+            )
+        ),
+        'sp_5': divided_4_percent(
+            *cnv(
+                [d_1['ssch_t_np39'], d_1['ssch_t_np'], d_0['ssch_t_np39'], d_0['ssch_t_np']]
+            )
+        ),
+        'sp_6': diffence(
+            *cnv(
+                [d_1['rid_t'], d_0['rid_t']]
+            )
+        ),
+        'sp_7': divided_2_percent(
+            *cnv(
+                [d_1['niokr_pdd'], d_0['niokr_gz']]
+            )
+        ),
+        'dp_1': divided_2_percent(
+            *cnv(
+                [d_1['d_niokr'], 100*d_0['op']]
+            )
+        ),
+        'dp_2': divided_2_percent(
+            *cnv(
+                [d_1['fr_rid'], d_0['rid_s']]
+            )
+        ),
+        'id':id_
+    }
+    return compute_dict
+
+def compute_score_rkfm_no(d):
+    res = {
+    "pkp_1_score":score_pkp_1(d["pkp_1"]),
+    "pkp_2_score":score_pkp_2(d["pkp_2"]),
+    "pkp_3_score":score_pkp_3(d["pkp_3"]),
+    "pfu_1_score":score_pfu_1(d["pfu_1"]),
+    "pfu_2_score":score_pfu_2(d["pfu_2"]),
+    "pfu_3_score":score_pfu_3(d["pfu_3"]),
+    "pfu_5_score":score_pfu_5(d["pfu_5"]),
+    "pfu_6_score":score_pfu_6(d["pfu_6"]),
+    "pfu_7_score":score_pfu_7(d["pfu_7"]),
+    "sp_1_score": score_sp_1(d["sp_1"]),
+    "sp_2_score": score_sp_2(d["sp_2"]),
+    "sp_3_score": score_sp_3(d["sp_3"]),
+    "sp_4_score": score_sp_4(d["sp_4"]),
+    "sp_5_score": score_sp_5(d["sp_5"]),
+    "sp_6_score": score_sp_6(d["sp_6"]),
+    "sp_7_score": score_sp_7(d["sp_7"]),
+    }
+    return res
+
+def compute_score(d):
+    res = {
+    "op_1_score": score_op_1(d["op_1_d_t_delta"]),
+    "op_2_score": score_op_2_3(d["op_2_d_t_max_value_21"]),
+    "op_5_score": score_op_5(d["op_5"]),
+    "op_7_score": score_op_7(d["op_7"]),
+    "op_8_score": score_op_8(d["op_8"]),
+    "pfu_3_score": score_pfu_3(d["pfu_3"]),
+    "pfu_6_score": score_pfu_6(d["pfu_6"]),
+    "pfu_10_score": score_pfu_10(d["pfu_11"],d["pfu_10_oc_1"]),
+    "pfu_12_score": score_pfu_12(d["pfu_13"],d["pfu_12_oc_2"]),
+    "pfu_14_score": score_pfu_14_15(d["pfu_14"]),
+    "pfu_15_score": score_pfu_14_15(d["pfu_15"]),
+    "lp_3_score": score_lp_3(d["lp_3_ko_delta"]),
+    "lp_5_score": score_lp_5(d["lp_5"]),
+    }
+    res_1 = {
+        "v_1_score" : sum([res["op_1_score"],res["op_5_score"],res["op_7_score"],res["pfu_3_score"],res["pfu_6_score"]]), # Oleg's change: delete ,res["op_2_score"]
+        "v_2_score" : sum([res["op_1_score"],res["op_5_score"],res["op_7_score"],res["op_8_score"],res["pfu_3_score"],res["pfu_6_score"]]), # Oleg's change: delete ,res["op_2_score"]
+        "v_3_score": sum([res["pfu_10_score"],res["pfu_12_score"],res["pfu_14_score"],res["pfu_15_score"],res["lp_3_score"], res['lp_5_score'] ])
+    }
+    res.update(res_1)
+    return res
