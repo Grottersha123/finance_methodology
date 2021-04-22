@@ -2,6 +2,8 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from subprocess import call
+
 import requests
 
 from async_db.config import url
@@ -101,6 +103,7 @@ def start_script_method_rfkm_no(lst=[], org=''):
 
 def start_script_method_rfkm_oovo(lst=[], org=''):
     print('start_script')
+    # call('python somescript.py')
     path = r'data.json'
     # data = get_data_from_api(lst=lst, org=org)
     # requests_data = get_request(url, '')

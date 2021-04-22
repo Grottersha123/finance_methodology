@@ -12,7 +12,7 @@ def average_percent(*args, a=''):
 
 def average_percent_rfkm(*args, a=''):
     try:
-        return round(100 - ((args[0] - args[1]) / args[1] * 100), 4)
+        return round(100 - (abs(args[0] - args[1]) / args[1] * 100), 4)
     except Exception:
         ic('average_percent_rfkm', args)
         return 'Null'
@@ -25,6 +25,21 @@ def average_percent_minus_rfkm(*args, a=''):
         ic('average_percent', a)
         return 0
 
+
+
+def average_percent_minus_rfkm_oovo_pkp_4(*args, a=''):
+    try:
+        return round(((args[0]+args[1]) - args[2])/ (args[0] + args[2]) * 100, 4)
+    except Exception:
+        ic('average_percent', a)
+        return 0
+
+def average_percent_rfkm_oovo(*args, a=''):
+    try:
+        return round(100 - (abs(args[0] + args[1] - args[2]) / args[2] * 100), 4)
+    except Exception:
+        ic('average_percent', a)
+        return 0
 
 def average_percent_two_rfkm(*args, a=''):
     try:
@@ -59,12 +74,14 @@ def average_percent_6_12_rfkm(*args, a=''):
         return 0
 
 def sp_1_rfkm(*args, a=''):
+    print(args, 'sp_1_rfkmsp_1_rfkmsp_1_rfkmsp_1_rfkmsp_1_rfkmsp_1_rfkmsp_1_rfkmsp_1_rfkmsp_1_rfkm')
     try:
-        return round(((args[0] / (args[1] * 12 * args[2])), 4))
+        print(round((args[0] / (args[1] * 12 * args[2])) * 100, 4))
+        return round((args[0] / (args[1] * 12 * args[2])) * 100, 4)
     except Exception:
         ic('average_percent', a)
         return 0
-
+# убрать и заменить
 def sp_1_rfkm_on(*args, a=''):
     try:
         return round(((args[0] / (args[0] * args[1] * args[2])), 4))
@@ -101,7 +118,11 @@ def compute_average_percent(*args):
 
 
 def divided_2_rfkm(*args) -> object:
-    return args[0]/args[1]
+    try:
+        return args[0]/args[1] * 100
+    except ZeroDivisionError:
+        logging.error('ZeroDivisionError', 'divided_2_rfkm')
+        return 0
 
 def sum_6_abs_percent(*args):
     try:
@@ -120,7 +141,15 @@ def divided_2_percent(*args):
 
 def divided_2_percent_m(*args):
     try:
-        return (args[0] - args[1])/args[2] * 100
+        return ((args[0] - args[1])/args[2]) * 100
+    except Exception as e:
+        print(e, 'divided_2_percent')
+        return 0
+
+
+def divided_2_percent_m_rfkm(*args):
+    try:
+        return ((args[0] - args[1])/args[2]) * 100
     except Exception as e:
         print(e, 'divided_2_percent')
         return 0
@@ -135,6 +164,22 @@ def divided_3_percent_12_rfkm(*args):
 def divided_3_per_rfkm(*args):
     try:
         return (args[0] / args[1] /12 / args[2] / args[3] / 12) * 100 - 100
+    except Exception as e:
+        print(e, 'divided_2_percent')
+        return 0
+
+def divided_3_per_rfkm_sp_2a(*args):
+    try:
+        return ((args[0] * args[1]) / (args[2] * args[3]) ) * 100 - 100
+    except Exception as e:
+        print(e, 'divided_2_percent')
+        return 0
+
+
+
+def divided_12_per_rfkm(*args):
+    try:
+        return (args[0] / args[1] /12) / (args[2]/args[3]) * 100
     except Exception as e:
         print(e, 'divided_2_percent')
         return 0

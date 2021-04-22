@@ -313,48 +313,79 @@ def score_sp_7(a):
 
 
 def pkp_1_score(a):
-    if a >= 95:
+    if a == 'Null':
+        return 'Null'
+    if a >= 90:
         return 1
     if 90 < a < 95:
         return 0.5
     if a <= 90:
         return 0
+
+def pkp_2_score(a):
     if a == 'Null':
         return 'Null'
-def pkp_2_score(a):
     if a >= 97:
         return 1
     if 90 < a < 97:
         return 0.5
     if a <= 90:
         return 0
+
+# TODO новая методичка
+def pkp_3_score(a):
     if a == 'Null':
         return 'Null'
-def pkp_3_score(a):
+    if a >= 92:
+        return 0
+    if 92 < a < 99:
+        return 0.5
+    if a <= 97:
+        return 1
+
+# TODO:/ новое
+def pkp_4_score(a):
+    if a == 'Null':
+        return 'Null'
+    if 25 < a < 35:
+        return 0.5
+    if 0 < a > 25:
+        return 1
+    if 0 < a > 35:
+        return 0
+
+    else:
+        return 0
+
+def pkp_5_score(a):
+    if a == 'Null':
+        return 'Null'
     if a >= 4:
         return 1
     if 0 < a < 4:
         return 0.5
     if a <= 0:
         return 0
+
+
+def pfu_1_score(a):
     if a == 'Null':
         return 'Null'
-def pfu_1_score(a):
     if a >= 50:
         return 1
     if 30 < a < 50:
         return 0.5
     if a <= 30:
         return 0
+
+def pfu_2_score(a):
     if a == 'Null':
         return 'Null'
-def pfu_2_score(a):
     if a >= 100:
         return 0
     if a <= 100:
         return 1
-    if a == 'Null':
-        return 'Null'
+
 def pfu_3_score(a):
     if a >= 25:
         return 0

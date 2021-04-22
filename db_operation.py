@@ -1,8 +1,9 @@
 from time import sleep
 
 from sqlalchemy import create_engine
-from sshtunnel import SSHTunnelForwarder  # Run pip install sshtunnel
 from sqlalchemy.orm import sessionmaker  # Run pip install sqlalchemy
+from sshtunnel import SSHTunnelForwarder  # Run pip install sshtunnel
+
 
 def insert_data(res):
     try:
@@ -156,10 +157,18 @@ def insert_data_rfkm_oovo(res):
             print(data, score)
             raw_str = """
             insert into dep_rkfm_oovo (blocksubbo_codesub, pkp_1, pkp_2, pkp_3, pfu_1, pfu_2, pfu_3, pfu_4, pfu_5,
-                           pfu_6, sp_1, sp_1a, sp_2, sp_2a, sp_3, sp_4, sp_5, pknpa_1, pknpa_2, pknpa_3, dp_1, pkp_1_score, pkp_2_score, pkp_3_score, pfu_1_score, pfu_2_score, pfu_3_score, pfu_4_score, pfu_5_score, pfu_6_score, sp_1_score, sp_1a_score, sp_2_score, sp_2a_score, sp_3_score, sp_4_score, sp_5_score, pknpa_1_score, pknpa_2_score, pknpa_3_score, dp_1_score)
-                     values ('{id}',{pkp_1}, {pkp_2}, {pkp_3}, {pfu_1}, {pfu_2}, {pfu_3}, {pfu_4}, {pfu_5}, {pfu_6}, {sp_1}, {sp_1a}, {sp_2}, {sp_2a}, {sp_3}, {sp_4}, {sp_5}, {pknpa_1}, {pknpa_2}, {pknpa_3}, {dp_1}, {pkp_1_score}, {pkp_2_score}, {pkp_3_score}, {pfu_1_score}, {pfu_2_score}, {pfu_3_score}, {pfu_4_score}, {pfu_5_score}, {pfu_6_score}, {sp_1_score}, {sp_1a_score}, {sp_2_score}, {sp_2a_score}, {sp_3_score}, {sp_4_score}, {sp_5_score}, {pknpa_1_score}, {pknpa_2_score}, {pknpa_3_score}, {dp_1_score}
+                           pfu_6, sp_1, sp_1a, sp_2, sp_2a, sp_3, sp_4, sp_5, pknpa_1, pknpa_2, pknpa_3, dp_1, pkp_1_score, 
+                           pkp_2_score, pkp_3_score, pfu_1_score, pfu_2_score, pfu_3_score, pfu_4_score, pfu_5_score, 
+                           pfu_6_score, sp_1_score, sp_1a_score, sp_2_score, sp_2a_score, sp_3_score, sp_4_score, 
+                           sp_5_score, pknpa_1_score, pknpa_2_score, pknpa_3_score, dp_1_score, pkp_4, pkp_5, pkp_4_score, pkp_5_score)
+                     values ('{id}',{pkp_1}, {pkp_2}, {pkp_3}, {pfu_1}, {pfu_2}, {pfu_3}, {pfu_4}, {pfu_5}, {pfu_6}, {sp_1}, {sp_1a}, 
+                     {sp_2}, {sp_2a}, {sp_3}, {sp_4}, {sp_5}, {pknpa_1}, {pknpa_2}, {pknpa_3}, {dp_1}, {pkp_1_score},
+                      {pkp_2_score}, {pkp_3_score}, {pfu_1_score}, {pfu_2_score}, {pfu_3_score}, {pfu_4_score}, 
+                      {pfu_5_score}, {pfu_6_score}, {sp_1_score}, {sp_1a_score}, {sp_2_score}, {sp_2a_score}, 
+                     {sp_3_score}, {sp_4_score}, {sp_5_score}, {pknpa_1_score}, {pknpa_2_score}, {pknpa_3_score}, {dp_1_score},
+                     {pkp_4}, {pkp_5}, {pkp_4_score}, {pkp_5_score}
 );""".format(
-                data['id'], '2021-01-01 00:00:00.000000', **data,**score )
+                data['id'], '2021-01-01 00:00:00.000000', **data, **score )
 
             print(raw_str)
 
