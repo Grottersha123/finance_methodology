@@ -5,8 +5,11 @@
 import requests
 
 from async_db.config import url
-from db_operation import insert_data, insert_data_rfkm_no
-from generate_dict import compute_all, compute_score, compute_all_fs, compute_all_rkfm_no
+from db_operation import insert_data, insert_data_rfkm_no, insert_data_rfkm_oovo
+from generate_dict import compute_all, compute_score, compute_all_fs, compute_all_rkfm_no, compute_all_rkfm_oovo, \
+    compute_score_rkfm_oovo
+
+
 # from get_data import get_data_from_api
 
 
@@ -96,12 +99,35 @@ def start_script_method_rfkm_no(lst=[], org=''):
 
 
 
+def start_script_method_rfkm_oovo(lst=[], org=''):
+    print('start_script')
+    path = r'data.json'
+    # data = get_data_from_api(lst=lst, org=org)
+    # requests_data = get_request(url, '')
+    data = load_json(path)
+    # data = json.loads(requests_data)
+    res_insert = []
+    res_not_insert = []
+    res_new = []
+    for ind, d in enumerate(data):
+        print(d)
+        try:
+            result = compute_all_rkfm_oovo(data[d], id_=d)
+            result_score = compute_score_rkfm_oovo(result)
+            res_new.append((result, result_score))
+        except Exception as e:
+            res_not_insert.append(data[d]['id'])
+    print('start insert data')
+    print(res_new)
+    insert_data_rfkm_oovo(res_new)
+    return res_insert, res_not_insert
+
 # Press the green button in the gutter to run the script.
 import json
 # 'pfu_3', 'pfu_4', 'pfu_5'
 if __name__ == '__main__':
     # pass
-    start_script_method_rfkm_no(lst=['pfu_1', 'pfu_2'], org='001X3239|001X8880')
+    start_script_method_rfkm_oovo()
     # path = r'example.json'
     #
     # requests_data = get_request(url, '')

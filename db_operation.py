@@ -131,4 +131,47 @@ def insert_data_rfkm_no(res):
     #     server.stop()
 
 
+
+def insert_data_rfkm_oovo(res):
+    with SSHTunnelForwarder(
+            ('193.41.140.35', 22003),  # Remote server IP and SSH port
+            ssh_username="analit",
+            ssh_password="Sae7ZaeW",
+            remote_bind_address=(
+                    'localhost', 5432)) as server:
+        # PostgreSQL server IP and sever port on remote machine
+        server.daemon_forward_servers = True
+        sleep(2)
+        server.start()  # start ssh seve
+
+        # connect to PostgreSQL
+        local_port = str(server.local_bind_port)
+
+        engine = create_engine('postgresql://postgres:Sae7ZaeWklS@localhost:' + local_port + '/data')
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        # test data retrieval
+        for ind, d in enumerate(res):
+            data, score = d[0], d[1]
+            print(data, score)
+            raw_str = """
+            insert into dep_rkfm_oovo (blocksubbo_codesub, pkp_1, pkp_2, pkp_3, pfu_1, pfu_2, pfu_3, pfu_4, pfu_5,
+                           pfu_6, sp_1, sp_1a, sp_2, sp_2a, sp_3, sp_4, sp_5, pknpa_1, pknpa_2, pknpa_3, dp_1, pkp_1_score, pkp_2_score, pkp_3_score, pfu_1_score, pfu_2_score, pfu_3_score, pfu_4_score, pfu_5_score, pfu_6_score, sp_1_score, sp_1a_score, sp_2_score, sp_2a_score, sp_3_score, sp_4_score, sp_5_score, pknpa_1_score, pknpa_2_score, pknpa_3_score, dp_1_score)
+                     values ('{id}',{pkp_1}, {pkp_2}, {pkp_3}, {pfu_1}, {pfu_2}, {pfu_3}, {pfu_4}, {pfu_5}, {pfu_6}, {sp_1}, {sp_1a}, {sp_2}, {sp_2a}, {sp_3}, {sp_4}, {sp_5}, {pknpa_1}, {pknpa_2}, {pknpa_3}, {dp_1}, {pkp_1_score}, {pkp_2_score}, {pkp_3_score}, {pfu_1_score}, {pfu_2_score}, {pfu_3_score}, {pfu_4_score}, {pfu_5_score}, {pfu_6_score}, {sp_1_score}, {sp_1a_score}, {sp_2_score}, {sp_2a_score}, {sp_3_score}, {sp_4_score}, {sp_5_score}, {pknpa_1_score}, {pknpa_2_score}, {pknpa_3_score}, {dp_1_score}
+);""".format(
+                data['id'], '2021-01-01 00:00:00.000000', **data,**score )
+
+            print(raw_str)
+
+            print('insert', ind, data['id'])
+
+            test = session.execute(raw_str)
+
+        session.commit()
+        session.close()
+        server.stop()
+        return data['id']
+    # except ValueError as error:
+    #     print("Failed to insert record into mobile table", error)
+    #     server.stop()
 # insert_data_rfkm_no({'id':'sefsdsdf'))

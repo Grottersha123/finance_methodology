@@ -3,11 +3,15 @@ from financial_methodology import average_percent, max_value, diffence, max_perc
     divided_2_percent, sum_3_abs_percent, sum_3_percent, compute_average_percent, divided_12_parametr_3_percent, \
     divided_12_coef_parametr_3_percent, sum_2_parametr_percent, difference_abs, divided_12_percent, \
     average_percent_rfkm, average_percent_minus_rfkm, average_percent_two_rfkm, average_percent_6_12_rfkm, sp_1_rfkm, \
-    average_percent_3_rfkm, average_percent_fot_rfkm, sp_1_rfkm_on, divided_4_percent
+    average_percent_3_rfkm, average_percent_fot_rfkm, sp_1_rfkm_on, divided_4_percent, \
+    divided_2_rfkm, divided_3_percent_12_rfkm, divided_3_per_rfkm, divided_2_percent_m
 from score_op import score_op_1, score_op_2_3, score_op_5, score_op_7, score_op_8, score_pfu_3, score_pfu_6, \
     score_pfu_10, score_pfu_12, score_pfu_14_15, score_lp_3, score_lp_5, score_pkp_3, score_pkp_2, score_sp_7, \
     score_pkp_1, score_pfu_1, score_pfu_2, score_pfu_5, score_pfu_7, score_sp_1, score_sp_3, score_sp_2, score_sp_4, \
-    score_sp_5, score_sp_6
+    score_sp_5, score_sp_6, pkp_1_score, pkp_2_score, pkp_3_score, pfu_1_score, pfu_2_score, pfu_3_score, pfu_4_score, \
+    pfu_5_score, pfu_6_score, sp_1_score, sp_1a_score, sp_2_score, sp_2a_score, sp_3_score, sp_4_score, pknpa_1_score, \
+    pknpa_2_score, pknpa_3_score, dp_1_score
+
 
 def convert_none(lst):
     return [0 if v is None else v for v in lst]
@@ -655,9 +659,12 @@ def compute_all_fs(data):
     return compute_dict
 
 
-def compute_all_rkfm_oovo(data):
+def compute_all_rkfm_oovo(data, id_=''):
+    data = check_keys_in_json_rkfm_oovo(data)
     d_1 = data['01012021']
+    d_0 = data['01012020']
     compute_dict = {
+        'id': id_,
         'pkp_1': average_percent_rfkm(
             *cnv(
                 [d_1['d_f'], d_1['d_p']]
@@ -665,22 +672,22 @@ def compute_all_rkfm_oovo(data):
         ),
         'pkp_2': average_percent_rfkm(
             *cnv(
-                [d_1['p_f'], d_1['p_p']]
+                [d_1['r_f'], d_1['r_p']]
             )
         ),
         'pkp_3': average_percent_minus_rfkm(
             *cnv(
-                [d_1['o_s'], d_1['o_bt'],d_1['o_bs'],d_1['p_as'],d_1['d_gz'] ]
+                [d_1['o_s'], d_1['o_bt'], d_1['o_bs'], d_1['p_ac'], d_1['d_gz'] ]
             )
         ),
         'pfu_1': average_percent_two_rfkm(
             *cnv(
-                [d_1['d_pdd '], d_1['d_gz']]
+                [d_1['d_pdd'], d_1['d_gz']]
             )
         ),
-        'pfu_2': average_percent_6_12_rfkm(
+        'pfu_2': divided_2_rfkm(
             *cnv(
-                [d_1['kz_fot'], d_1['kz_n'], d_1['kz_kucn'],d_1['p_fot_vf'],d_1['p_n'], d_1['p_kucn']]
+                [d_1['pfu_2_chisl'], d_1['pfu_2_znamen']]
             )
         ),
         'pfu_3': divided_2_percent(
@@ -698,16 +705,34 @@ def compute_all_rkfm_oovo(data):
                 [d_1['dz_pros'], d_1['dz']]
             )
         ),
-        'pfu_6': divided_2_percent(
+        'pfu_6': divided_2_percent_m(
             *cnv(
-                [d_1['os_pdd'], d_1['p_fotvf'],d_1['p_n'],d_1['p_ku'],d_1['d_pdd']]
+                [d_1['os_pdd'], d_1['p'], d_1['d_pdd']]
             )
         ),
         'sp_1': sp_1_rfkm(
             *cnv(
-                [d_1['fnz_t_pps'], d_1['cch_t_pps'], d_1['t'], d_1['zp_t_sr']]
+                [d_1['fnz_t_ns'], d_1['ssch_t_ns'], d_1['zp_t_sr']]
             )
         ),
+        'sp_1a': sp_1_rfkm(
+            *cnv(
+                [d_1['fnz_t_ns'], d_1['ssch_t_ns'], d_1['sp_1A_chisl'], d_1['sp_1A_znamen']]
+            )
+        ),
+        # sp_2
+        'sp_2': divided_3_percent_12_rfkm(
+            *cnv(
+                [d_1['sp_2_fnz_t_ns'], d_1['sp_2_ssch_t_ns'], d_1['sp_2_chisl'], d_1['sp_2_znamen']]
+            )
+        ),
+        # доделать
+        # 'sp_2a': divided_3_per_rfkm(
+        #     *cnv(
+        #         [d_1['chisl'], d_1['fod'], d_0['chisl'], d_0['fod']]
+        #     )
+        # ),
+        'sp_2a': 0,
         'sp_3': divided_2_percent(
             *cnv(
                 [d_1['p_fotvf'], d_1['p']]
@@ -718,7 +743,15 @@ def compute_all_rkfm_oovo(data):
                 [d_1['fnz_op'], d_1['fnz_obs']]
             )
         ),
+        # доправить
+        'sp_5': divided_2_rfkm(
+            *cnv(
+                [d_1['sp_5_chisl'], d_1['sp_5_znamen']]
+            )
+        ),
+        'pknpa_1': 0, 'pknpa_2':0, 'pknpa_3':0, 'dp_1':0
     }
+    return compute_dict
 
 def check_keys_in_json_rkfm_no(data_dict):
     parametrs = ['d_f','d_p',
@@ -753,7 +786,34 @@ def check_keys_in_json_rkfm_no(data_dict):
             })
     return data_dict
 
+def check_keys_in_json_rkfm_oovo(data_dict):
+    print(data_dict)
+    parametrs = ['d_f','d_p','r_f','r_p',
+'o_s','o_bt','o_bs','p_ac','d_gz',
+'d_t_pdd','d_gz','pfu_2_chisl','pfu_2_znamen','d_pdd',
+'d_o','kz_pros','kz','dz_pros','dz','os_pdd','d_pdd',
+'p','s_obsh','s_vnsh','zp_t_sr','fnz_t_ns','ssch_t_ns',
+'sp_1A_chisl','fnz_t_ns','ssch_t_ns','sp_1A_znamen',
+'sp_2_chisl','sp_2_fnz_t_ns','sp_2_ssch_t_ns','sp_2_znamen',
+'chisl','fond','p_fotvf','fnz_op','fnz_obs','sp_5_chisl',
+'sp_5_znamen','d_f','d_p']
+    d_1 = data_dict['01012021']
+    d_0 = data_dict['01012020']
+    print(d_0)
+    for p in parametrs:
+        if p not in d_1.keys():
+            data_dict['01012021'].update({
+                p : 0
+            })
+            print('missing', p)
+        if p not in d_0.keys():
+            data_dict['01012020'].update({
+                p: 0
+            })
+    return data_dict
+
 def compute_all_rkfm_no(data,id_=''):
+    print(data)
     data = check_keys_in_json_rkfm_no(data)
     d_1 = data['01012021']
     d_0 = data['01012020']
@@ -877,6 +937,34 @@ def compute_score_rkfm_no(d):
     "sp_5_score": score_sp_5(d["sp_5"]),
     "sp_6_score": score_sp_6(d["sp_6"]),
     "sp_7_score": score_sp_7(d["sp_7"]),
+    }
+    return res
+
+
+
+
+def compute_score_rkfm_oovo(d):
+    res = {
+        "pkp_1_score": pkp_1_score(d["pkp_1"]),
+        "pkp_2_score": pkp_2_score(d["pkp_2"]),
+        "pkp_3_score": pkp_3_score(d["pkp_3"]),
+        "pfu_1_score": pfu_1_score(d["pfu_1"]),
+        "pfu_2_score": pfu_2_score(d["pfu_2"]),
+        "pfu_3_score": pfu_3_score(d["pfu_3"]),
+        "pfu_4_score": pfu_4_score(d["pfu_4"]),
+        "pfu_5_score": pfu_5_score(d["pfu_5"]),
+        "pfu_6_score": pfu_6_score(d["pfu_6"]),
+        "sp_1_score": sp_1_score(d["sp_1"]),
+        "sp_1a_score": sp_1a_score(d["sp_1a"]),
+        "sp_2_score": sp_2_score(d["sp_2"]),
+        "sp_2a_score": sp_2a_score(d["sp_2a"]),
+        "sp_3_score": sp_3_score(d["sp_3"]),
+        "sp_4_score": sp_4_score(d["sp_4"]),
+        "sp_5_score": 0,
+        "pknpa_1_score": pknpa_1_score(d["pknpa_1"]),
+        "pknpa_2_score": pknpa_2_score(d["pknpa_2"]),
+        "pknpa_3_score": pknpa_3_score(d["pknpa_3"]),
+        "dp_1_score": dp_1_score(d["dp_1"]),
     }
     return res
 
